@@ -32,27 +32,25 @@
     }
 
     body {
-      background:
-        radial-gradient(circle at top, rgba(200,169,141,0.08), transparent 28%),
-        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-main) 100%);
-      color: var(--text-main);
-      font-family: 'Segoe UI', 'SF Pro Display', -apple-system, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+  background: linear-gradient(180deg, #141418 0%, #101014 100%);
+  color: var(--text-main);
+  font-family: 'Segoe UI', 'SF Pro Display', -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.28;
-    }
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,0.008) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.008) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.14;
+}
 
     .container {
       position: relative;
@@ -162,18 +160,18 @@
     }
 
     .cat-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px 16px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-      backdrop-filter: blur(8px);
-    }
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.008));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+  backdrop-filter: blur(6px);
+}
 
     .cat-card:active {
       transform: scale(0.98);
