@@ -522,7 +522,9 @@ function saveState() {
     function getColor() {
       return person === "his" ? "#c0392b" : "#8e44ad";
     }
-
+function getLabel() {
+  return person === "his" ? "HIS VISION" : "HER VISION";
+}
     function openResults() {
   activeCategory = null;
   showResults = true;
