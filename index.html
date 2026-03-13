@@ -637,11 +637,12 @@ function saveState() {
     }
 
     function setPerson(p) {
-      person = p;
-      activeCategory = null;
-      render();
-      window.scrollTo(0, 0);
-    }
+  person = p;
+  activeCategory = null;
+  showResults = false;
+  render();
+  window.scrollTo(0, 0);
+}
 
     function openCategory(id) {
       activeCategory = id;
