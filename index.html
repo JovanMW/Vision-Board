@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dream Blueprint</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+background:#0a0a0c;
+color:#e8e6e1;
+font-family:'Segoe UI','SF Pro Display',-apple-system,sans-serif;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+background-image:
+linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+z-index:0;
+}
+
+.container{
+position:relative;
+z-index:1;
+max-width:720px;
+margin:0 auto;
+padding:40px 20px 80px;
+}
+
+.header{
+text-align:center;
+margin-bottom:40px;
+}
+
+.header-sub{
+font-size:11px;
+letter-spacing:6px;
+text-transform:uppercase;
+color:#555;
+margin-bottom:12px;
+}
+
+.header h1{
+font-size:36px;
+font-weight:800;
+letter-spacing:-1px;
+background:linear-gradient(135deg,#e8e6e1,#888);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.header-desc{
+font-size:14px;
+color:#666;
+margin-top:8px;
+}
+
+.toggle-wrap{
+display:flex;
+max-width:320px;
+margin:0 auto 32px;
+background:#141416;
+border-radius:12px;
+padding:4px;
+border:1px solid #222;
+}
+
+.toggle-btn{
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+font-size:12px;
+font-weight:700;
+letter-spacing:3px;
+cursor:pointer;
+background:transparent;
+color:#555;
+}
+
+.toggle-btn.active-his{
+background:#c0392b;
+color:#fff;
+}
+
+.toggle-btn.active-hers{
+background:#8e44ad;
+color:#fff;
+}
+
+.progress-wrap{
+margin-bottom:36px;
+}
+
+.progress-labels{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:#555;
+margin-bottom:8px;
+}
+
+.progress-bar{
+height:4px;
+background:#1a1a1e;
+border-radius:4px;
+overflow:hidden;
+}
+
+.progress-fill{
+height:100%;
+border-radius:4px;
+transition:width .5s;
+}
+
+.cat-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.cat-card{
+background:#111114;
+border:1px solid #1e1e22;
+border-radius:14px;
+padding:20px 16px;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+}
+
+.cat-card:active{
+transform:scale(.97);
+}
+
+.cat-card.done-his{
+background:rgba(192,57,43,0.08);
+border-color:rgba(192,57,43,0.25);
+}
+
+.cat-card.done-hers{
+background:rgba(142,68,173,0.08);
+border-color:rgba(142,68,173,0.25);
+}
+
+.cat-icon{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.cat-title{
+font-size:14px;
+font-weight:700;
+margin-bottom:4px;
+}
+
+.cat-count{
+font-size:11px;
+color:#555;
+}
+
+.cat-check{
+position:absolute;
+top:12px;
+right:12px;
+font-size:14px;
+}
+
+.cat-mini-bar{
+position:absolute;
+bottom:0;
+left:0;
+height:3px;
+opacity:.6;
+}
+
+.back-btn{
+background:none;
+border:none;
+color:#555;
+font-size:13px;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+.form-card{
+background:#111114;
+border:1px solid #1e1e22;
+border-radius:18px;
+padding:32px 24px;
+}
+
+.form-header{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:28px;
+}
+
+.form-header-icon{
+font-size:36px;
+}
+
+.form-header h2{
+font-size:22px;
+font-weight:800;
+}
+
+.form-header-person{
+font-size:11px;
+font-weight:600;
+letter-spacing:2px;
+margin-top:4px;
+}
+
+.form-fields{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.field-label{
+font-size:12px;
+font-weight:600;
+color:#888;
+margin-bottom:8px;
+}
+
+.field-textarea{
+width:100%;
+background:#0a0a0c;
+border:1px solid #1a1a1e;
+border-radius:10px;
+padding:12px 14px;
+color:#e8e6e1;
+font-size:14px;
+resize:vertical;
+outline:none;
+}
+
+.complete-btn{
+margin-top:28px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+color:#fff;
+font-size:13px;
+font-weight:700;
+letter-spacing:2px;
+cursor:pointer;
+}
+
+.footer{
+text-align:center;
+margin-top:48px;
+font-size:11px;
+color:#333;
+letter-spacing:2px;
+}
+
+@media(max-width:480px){
+
+.container{
+padding:24px 16px 60px;
+}
+
+.header h1{
+font-size:28px;
+}
+
+.cat-card{
+padding:16px 12px;
+}
+
+.form-card{
+padding:24px 16px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="app"></div>
+
+<script>
+
+const categories=[
+
+{ id:"car",icon:"🏎️",title:"Dream Car",
+questions:[
+{id:"make",label:"Make & Model",placeholder:"e.g. Porsche 911 GT3"},
+{id:"year",label:"Year",placeholder:"e.g. 2026"},
+{id:"color",label:"Exterior Color",placeholder:"e.g. Guards Red"},
+{id:"interior",label:"Interior",placeholder:"e.g. Black leather"},
+{id:"features",label:"Must-Have Features",placeholder:"e.g. Manual"},
+{id:"second",label:"Second Car?",placeholder:"e.g. Escalade daily"}
+]},
+
+{ id:"house",icon:"🏠",title:"Dream House",
+questions:[
+{id:"location",label:"Location",placeholder:"e.g. Scottsdale AZ"},
+{id:"sqft",label:"Square Footage",placeholder:"e.g. 3500"},
+{id:"bedrooms",label:"Bedrooms",placeholder:"4"},
+{id:"bathrooms",label:"Bathrooms",placeholder:"3.5"},
+{id:"style",label:"Style",placeholder:"Modern farmhouse"},
+{id:"musthaves",label:"Must Have Features",placeholder:"Pool, gym"},
+{id:"garage",label:"Garage",placeholder:"3 car garage"}
+]},
+
+{ id:"routine",icon:"⏰",title:"Dream Daily Routine",
+questions:[
+{id:"wake",label:"Wake Up Time",placeholder:"6:00 AM"},
+{id:"morning",label:"Morning Routine",placeholder:"Coffee + gym"},
+{id:"work",label:"Work",placeholder:"Coaching clients"},
+{id:"afternoon",label:"Afternoon",placeholder:"Golf or errands"},
+{id:"evening",label:"Evening",placeholder:"Dinner together"},
+{id:"feeling",label:"End Of Day Feeling",placeholder:"Fulfilled"}
+]}
+
+];
+
+let person="his";
+let activeCategory=null;
+let answers={};
+let completedCats={};
+
+function getKey(cat,q){
+return person+"-"+cat+"-"+q;
+}
+
+function getColor(){
+return person==="his"?"#c0392b":"#8e44ad";
+}
+
+function getLabel(){
+return person==="his"?"HIS VISION":"HER VISION";
+}
+
+function getCatProgress(cat){
+return cat.questions.filter(q=>answers[getKey(cat.id,q.id)]).length;
+}
+
+function render(){
+
+const app=document.getElementById("app");
+const color=getColor();
+const label=getLabel();
+
+let html=`
+
+<div class="header">
+<div class="header-sub">Build The Vision Together</div>
+<h1>DREAM BLUEPRINT</h1>
+<div class="header-desc">Get specific. Get detailed. Get after it.</div>
+</div>
+
+<div class="toggle-wrap">
+<button class="toggle-btn ${person==="his"?"active-his":""}" onclick="setPerson('his')">HIS VISION</button>
+<button class="toggle-btn ${person==="hers"?"active-hers":""}" onclick="setPerson('hers')">HER VISION</button>
+</div>
+
+`;
+
+if(!activeCategory){
+
+html+=`<div class="cat-grid">`;
+
+categories.forEach(cat=>{
+
+let prog=getCatProgress(cat);
+
+html+=`
+
+<div class="cat-card" onclick="openCategory('${cat.id}')">
+
+<div class="cat-icon">${cat.icon}</div>
+<div class="cat-title">${cat.title}</div>
+<div class="cat-count">${prog}/${cat.questions.length} answered</div>
+
+<div class="cat-mini-bar" style="width:${(prog/cat.questions.length)*100}%;background:${color}"></div>
+
+</div>
+
+`;
+
+});
+
+html+=`</div>`;
+
+}else{
+
+let cat=categories.find(c=>c.id===activeCategory);
+
+html+=`
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+
+<div class="form-card">
+
+<div class="form-header">
+<span class="form-header-icon">${cat.icon}</span>
+<div>
+<h2>${cat.title}</h2>
+<div class="form-header-person" style="color:${color}">${label}</div>
+</div>
+</div>
+
+<div class="form-fields">
+
+`;
+
+cat.questions.forEach(q=>{
+
+let key=getKey(cat.id,q.id);
+let val=answers[key]||"";
+
+html+=`
+
+<div>
+
+<label class="field-label">${q.label}</label>
+
+<textarea
+class="field-textarea"
+rows="2"
+placeholder="${q.placeholder}"
+oninput="handleInput('${cat.id}','${q.id}',this.value)"
+>${val}</textarea>
+
+</div>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+<button class="complete-btn" style="background:${color}" onclick="markComplete('${cat.id}')">MARK COMPLETE ✓</button>
+
+</div>
+
+`;
+
+}
+
+html+=`<div class="footer">IF YOU CAN SEE IT YOU CAN BUILD IT</div>`;
+
+app.innerHTML=html;
+
+}
+
+function setPerson(p){
+person=p;
+activeCategory=null;
+render();
+}
+
+function openCategory(id){
+activeCategory=id;
+render();
+}
+
+function goBack(){
+activeCategory=null;
+render();
+}
+
+function handleInput(cat,q,value){
+answers[getKey(cat,q)]=value;
+}
+
+function markComplete(cat){
+completedCats[person+"-"+cat]=true;
+activeCategory=null;
+render();
+}
+
+render();
+
+</script>
+
+</body>
+</html>
