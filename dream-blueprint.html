@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dream Blueprint</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+background: #0a0a0c;
+color: #e8e6e1;
+font-family: 'Segoe UI', 'SF Pro Display', -apple-system, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+body::before {
+content: '';
+position: fixed;
+inset: 0;
+background-image:
+linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+background-size: 40px 40px;
+pointer-events: none;
+z-index: 0;
+}
+
+.container {
+position: relative;
+z-index: 1;
+max-width: 720px;
+margin: 0 auto;
+padding: 40px 20px 80px;
+}
+
+.header { text-align: center; margin-bottom: 40px; }
+.header-sub {
+font-size: 11px;
+letter-spacing: 6px;
+text-transform: uppercase;
+color: #555;
+margin-bottom: 12px;
+}
+.header h1 {
+font-size: 36px;
+font-weight: 800;
+letter-spacing: -1px;
+background: linear-gradient(135deg, #e8e6e1, #888);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+.header-desc { font-size: 14px; color: #666; margin-top: 8px; }
+
+/* Toggle */
+.toggle-wrap {
+display: flex;
+max-width: 320px;
+margin: 0 auto 32px;
+background: #141416;
+border-radius: 12px;
+padding: 4px;
+border: 1px solid #222;
+}
+.toggle-btn {
+flex: 1;
+padding: 12px 20px;
+border: none;
+border-radius: 10px;
+font-size: 12px;
+font-weight: 700;
+letter-spacing: 3px;
+cursor: pointer;
+transition: all 0.25s ease;
+background: transparent;
+color: #555;
+}
+.toggle-btn.active-his { background: #c0392b; color: #fff; }
+.toggle-btn.active-hers { background: #8e44ad; color: #fff; }
+
+/* Progress */
+.progress-wrap { margin-bottom: 36px; }
+.progress-labels {
+display: flex;
+justify-content: space-between;
+font-size: 12px;
+color: #555;
+margin-bottom: 8px;
+}
+.progress-bar { height: 4px; background: #1a1a1e; border-radius: 4px; overflow: hidden; }
+.progress-fill {
+height: 100%;
+border-radius: 4px;
+transition: width 0.5s ease;
+}
+
+/* Grid */
+.cat-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+.cat-card {
+background: #111114;
+border: 1px solid #1e1e22;
+border-radius: 14px;
+padding: 20px 16px;
+cursor: pointer;
+text-align: left;
+transition: all 0.2s ease;
+position: relative;
+overflow: hidden;
+}
+.cat-card:active { transform: scale(0.97); }
+.cat-card.done-his { background: rgba(192,57,43,0.08); border-color: rgba(192,57,43,0.25); }
+.cat-card.done-hers { background: rgba(142,68,173,0.08); border-color: rgba(142,68,173,0.25); }
+.cat-icon { font-size: 28px; margin-bottom: 10px; }
+.cat-title { font-size: 14px; font-weight: 700; color: #e8e6e1; margin-bottom: 4px; }
+.cat-count { font-size: 11px; color: #555; }
+.cat-check { position: absolute; top: 12px; right: 12px; font-size: 14px; }
+.cat-mini-bar {
+position: absolute;
+bottom: 0;
+left: 0;
+height: 3px;
+opacity: 0.6;
+transition: width 0.4s ease;
+}
+
+/* Form */
+.back-btn {
+background: none;
+border: none;
+color: #555;
+font-size: 13px;
+cursor: pointer;
+margin-bottom: 20px;
+padding: 0;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.form-card {
+background: #111114;
+border: 1px solid #1e1e22;
+border-radius: 18px;
+padding: 32px 24px;
+}
+.form-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.form-header-icon { font-size: 36px; }
+.form-header h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
+.form-header-person { font-size: 11px; font-weight: 600; letter-spacing: 2px; margin-top: 4px; }
+.form-fields { display: flex; flex-direction: column; gap: 20px; }
+.field-label {
+display: block;
+font-size: 12px;
+font-weight: 600;
+color: #888;
+margin-bottom: 8px;
+letter-spacing: 0.5px;
+}
+.field-textarea {
+width: 100%;
+background: #0a0a0c;
+border: 1px solid #1a1a1e;
+border-radius: 10px;
+padding: 12px 14px;
+color: #e8e6e1;
+font-size: 14px;
+font-family: inherit;
+resize: vertical;
+outline: none;
+transition: border-color 0.2s ease;
+}
+.field-textarea::placeholder { color: #333; }
+.field-textarea.has-value-his { border-color: rgba(192,57,43,0.25); }
+.field-textarea.has-value-hers { border-color: rgba(142,68,173,0.25); }
+
+.complete-btn {
+margin-top: 28px;
+width: 100%;
+padding: 14px;
+border: none;
+border-radius: 10px;
+color: #fff;
+font-size: 13px;
+font-weight: 700;
+letter-spacing: 2px;
+cursor: pointer;
+transition: opacity 0.2s ease;
+}
+.complete-btn:active { opacity: 0.8; }
+
+.footer {
+text-align: center;
+margin-top: 48px;
+font-size: 11px;
+color: #333;
+letter-spacing: 2px;
+}
+
+@media (max-width: 480px) {
+.container { padding: 24px 16px 60px; }
+.header h1 { font-size: 28px; }
+.cat-grid { gap: 8px; }
+.cat-card { padding: 16px 12px; }
+.form-card { padding: 24px 16px; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="container" id="app"></div>
+
+<script>
+const categories = [
+  {
+    id: "car", icon: "🏎️", title: "Dream Car",
+    questions: [
+      { id: "make", label: "Make & Model", placeholder: "e.g. Porsche 911 GT3" },
+      { id: "year", label: "Year", placeholder: "e.g. 2026" },
+      { id: "color", label: "Exterior Color", placeholder: "e.g. Guards Red" },
+      { id: "interior", label: "Interior", placeholder: "e.g. Black leather, carbon fiber trim" },
+      { id: "features", label: "Must-Have Features", placeholder: "e.g. Manual, sport exhaust, ceramic brakes" },
+      { id: "second", label: "Second Car?", placeholder: "e.g. Blacked out Escalade for daily" },
+    ],
+  },
+  {
+    id: "house", icon: "🏠", title: "Dream House",
+    questions: [
+      { id: "location", label: "Location / City", placeholder: "e.g. Metairie, LA or Scottsdale, AZ" },
+      { id: "sqft", label: "Square Footage", placeholder: "e.g. 3,500 sq ft" },
+      { id: "bedrooms", label: "Bedrooms", placeholder: "e.g. 4" },
+      { id: "bathrooms", label: "Bathrooms", placeholder: "e.g. 3.5" },
+      { id: "style", label: "Style / Aesthetic", placeholder: "e.g. Modern farmhouse, dark tones" },
+      { id: "musthaves", label: "Non-Negotiable Features", placeholder: "e.g. Home gym, smart home, pool, fireplace" },
+      { id: "garage", label: "Garage / Outdoor", placeholder: "e.g. 3-car garage, covered patio, outdoor kitchen" },
+    ],
+  },
+  {
+    id: "routine", icon: "⏰", title: "Dream Daily Routine",
+    questions: [
+      { id: "wake", label: "What Time Do You Wake Up?", placeholder: "e.g. 6:00 AM naturally, no alarm" },
+      { id: "morning", label: "First 2 Hours Look Like...", placeholder: "e.g. Coffee on the patio, journal, gym" },
+      { id: "work", label: "What Does 'Work' Look Like?", placeholder: "e.g. 4 focused hours coaching clients from home office" },
+      { id: "afternoon", label: "Afternoon", placeholder: "e.g. Golf, errands, content creation" },
+      { id: "evening", label: "Evening Routine", placeholder: "e.g. Cook dinner together, unwind, read" },
+      { id: "feeling", label: "How Do You FEEL At The End Of The Day?", placeholder: "e.g. Fulfilled, zero stress, excited for tomorrow" },
+    ],
+  },
+  {
+    id: "travel", icon: "✈️", title: "Dream Vacation / Travel",
+    questions: [
+      { id: "top3", label: "Top 3 Destinations", placeholder: "e.g. Bora Bora, Tokyo, Swiss Alps" },
+      { id: "frequency", label: "How Often Are You Traveling?", placeholder: "e.g. One big trip per quarter" },
+      { id: "style", label: "Travel Style", placeholder: "e.g. Luxury resort, private villa, adventure" },
+      { id: "flight", label: "How Are You Flying?", placeholder: "e.g. First class, business minimum" },
+      { id: "memory", label: "One Trip You'd Never Forget", placeholder: "e.g. 2-week Greece island hopping" },
+    ],
+  },
+  {
+    id: "income", icon: "💰", title: "Dream Income / Net Worth",
+    questions: [
+      { id: "monthly", label: "Monthly Income", placeholder: "e.g. $30,000/month" },
+      { id: "networth", label: "Net Worth Goal", placeholder: "e.g. $2M by 35" },
+      { id: "sources", label: "Income Sources", placeholder: "e.g. Coaching, investments, digital products" },
+      { id: "freedom", label: "What Does Financial Freedom Mean To You?", placeholder: "e.g. Never checking the price of anything" },
+    ],
+  },
+  {
+    id: "business", icon: "📈", title: "Dream Business",
+    questions: [
+      { id: "name", label: "Business Name / Brand", placeholder: "e.g. Miguelly Online Fitness — fully scaled" },
+      { id: "clients", label: "How Many Clients / Revenue?", placeholder: "e.g. 40 active clients, $25K/month" },
+      { id: "team", label: "Do You Have A Team?", placeholder: "e.g. VA, video editor, sales closer" },
+      { id: "impact", label: "What Impact Does It Have?", placeholder: "e.g. Helping 500+ men transform their bodies and confidence" },
+      { id: "day", label: "What Does A Work Day Look Like?", placeholder: "e.g. Check ins, 2 sales calls, content batch day" },
+    ],
+  },
+  {
+    id: "investments", icon: "🏦", title: "Dream Investments / Assets",
+    questions: [
+      { id: "portfolio", label: "What Do You Own?", placeholder: "e.g. 3 rental properties, index funds, business equity" },
+      { id: "passive", label: "Monthly Passive Income", placeholder: "e.g. $5,000/month from rentals + dividends" },
+      { id: "assets", label: "Big Assets", placeholder: "e.g. Land, commercial property, franchise" },
+      { id: "strategy", label: "Investment Philosophy", placeholder: "e.g. Cash flow over appreciation, diversified" },
+    ],
+  },
+  {
+    id: "relationship", icon: "❤️", title: "Dream Relationship Dynamic",
+    questions: [
+      { id: "communication", label: "How Do You Two Communicate?", placeholder: "e.g. Direct, no passive aggression, weekly check-ins" },
+      { id: "roles", label: "How Do You Split Responsibilities?", placeholder: "e.g. Both contribute, play to strengths" },
+      { id: "dates", label: "What Do Date Nights Look Like?", placeholder: "e.g. Try a new restaurant every Friday" },
+      { id: "support", label: "How Do You Support Each Other's Goals?", placeholder: "e.g. She keeps me accountable, I support her career" },
+      { id: "vibe", label: "One Word For The Energy You Want", placeholder: "e.g. Peaceful, passionate, unshakeable" },
+    ],
+  },
+  {
+    id: "family", icon: "👨‍👩‍👧‍👦", title: "Dream Family Setup",
+    questions: [
+      { id: "kids", label: "Kids? How Many?", placeholder: "e.g. 2 — one boy, one girl" },
+      { id: "timeline", label: "Timeline", placeholder: "e.g. First kid by 28" },
+      { id: "parenting", label: "Parenting Style", placeholder: "e.g. Discipline + freedom, teach them money early" },
+      { id: "traditions", label: "Family Traditions You Want", placeholder: "e.g. Sunday dinners, annual family trip" },
+      { id: "values", label: "Top 3 Values You Want To Pass Down", placeholder: "e.g. Work ethic, respect, self-reliance" },
+    ],
+  },
+  {
+    id: "physique", icon: "💪", title: "Dream Physique",
+    questions: [
+      { id: "weight", label: "Goal Weight", placeholder: "e.g. 205 lbs lean" },
+      { id: "bodyfat", label: "Body Fat %", placeholder: "e.g. 10-12% year round" },
+      { id: "look", label: "What Does It Look Like?", placeholder: "e.g. Full shoulders, thick back, visible abs" },
+      { id: "strength", label: "Strength Goals", placeholder: "e.g. 315 bench, 500 deadlift" },
+      { id: "energy", label: "How Do You FEEL Physically?", placeholder: "e.g. Explosive, no joint pain, sleeping 7-8 hrs" },
+    ],
+  },
+  {
+    id: "bucket", icon: "🎯", title: "Dream Bucket List",
+    questions: [
+      { id: "experience1", label: "Experience #1", placeholder: "e.g. Cage-side at a UFC fight" },
+      { id: "experience2", label: "Experience #2", placeholder: "e.g. Drive a Lamborghini on a track" },
+      { id: "experience3", label: "Experience #3", placeholder: "e.g. Helicopter over the Grand Canyon" },
+      { id: "experience4", label: "Experience #4", placeholder: "e.g. Meet Alex Hormozi" },
+      { id: "experience5", label: "Experience #5", placeholder: "e.g. Own a beach house" },
+    ],
+  },
+  {
+    id: "future", icon: "🔮", title: "Dream Life At 40, 50, 60",
+    questions: [
+      { id: "at30", label: "At 30 You Are...", placeholder: "e.g. Business doing $30K/month, first rental property, starting a family" },
+      { id: "at40", label: "At 40 You Are...", placeholder: "e.g. Multiple income streams, kids in sports, traveling quarterly" },
+      { id: "at50", label: "At 50 You Are...", placeholder: "e.g. Semi-retired, mentoring, in the best shape of your life" },
+      { id: "at60", label: "At 60 You Are...", placeholder: "e.g. Generational wealth built, grandkids, legacy cemented" },
+      { id: "legacy", label: "What Do People Say About You?", placeholder: "e.g. He built something real and never forgot where he came from" },
+    ],
+  },
+];
+
+// State
+let person = "his";
+let activeCategory = null;
+let answers = {};
+let completedCats = {};
+
+// Try to load saved data
+try {
+  const saved = window.sessionStorage?.getItem?.("dream-blueprint");
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    answers = parsed.answers || {};
+    completedCats = parsed.completedCats || {};
+  }
+} catch(e) {}
+
+function saveState() {
+  try {
+    sessionStorage.setItem("dream-blueprint", JSON.stringify({ answers, completedCats }));
+  } catch(e) {}
+}
+
+function getKey(catId, qId) { return `${person}-${catId}-${qId}`; }
+
+function getCatProgress(cat) {
+  return cat.questions.filter(q => answers[getKey(cat.id, q.id)]?.trim()).length;
+}
+
+function getOverallProgress() {
+  const total = categories.reduce((s, c) => s + c.questions.length, 0);
+  const answered = categories.reduce((s, c) => s + getCatProgress(c), 0);
+  return Math.round((answered / total) * 100);
+}
+
+function getColor() { return person === "his" ? "#c0392b" : "#8e44ad"; }
+function getLabel() { return person === "his" ? "HIS VISION" : "HER VISION"; }
+
+function render() {
+  const app = document.getElementById("app");
+  const color = getColor();
+  const label = getLabel();
+  const progress = getOverallProgress();
+
+  let html = `
+    <div class="header">
+      <div class="header-sub">Build The Vision Together</div>
+      <h1>DREAM BLUEPRINT</h1>
+      <div class="header-desc">Get specific. Get detailed. Get after it.</div>
+    </div>
+
+    <div class="toggle-wrap">
+      <button class="toggle-btn ${person === 'his' ? 'active-his' : ''}" onclick="setPerson('his')">HIS VISION</button>
+      <button class="toggle-btn ${person === 'hers' ? 'active-hers' : ''}" onclick="setPerson('hers')">HER VISION</button>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-labels">
+        <span>${label}</span>
+        <span>${progress}% COMPLETE</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${progress}%;background:${color}"></div>
+      </div>
+    </div>
+  `;
+
+  if (!activeCategory) {
+    html += `<div class="cat-grid">`;
+    categories.forEach(cat => {
+      const prog = getCatProgress(cat);
+      const total = cat.questions.length;
+      const doneKey = `${person}-${cat.id}`;
+      const done = completedCats[doneKey];
+      const doneClass = done ? (person === 'his' ? 'done-his' : 'done-hers') : '';
+      html += `
+        <div class="cat-card ${doneClass}" onclick="openCategory('${cat.id}')">
+          <div class="cat-icon">${cat.icon}</div>
+          <div class="cat-title">${cat.title}</div>
+          <div class="cat-count">${prog}/${total} answered</div>
+          ${done ? `<div class="cat-check" style="color:${color}">✓</div>` : ''}
+          <div class="cat-mini-bar" style="width:${(prog/total)*100}%;background:${color}"></div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  } else {
+    const cat = categories.find(c => c.id === activeCategory);
+    const hasValueClass = person === 'his' ? 'has-value-his' : 'has-value-hers';
+
+    html += `
+      <button class="back-btn" onclick="goBack()">← Back to categories</button>
+      <div class="form-card">
+        <div class="form-header">
+          <span class="form-header-icon">${cat.icon}</span>
+          <div>
+            <h2>${cat.title}</h2>
+            <div class="form-header-person" style="color:${color}">${label}</div>
+          </div>
+        </div>
+        <div class="form-fields">
+    `;
+
+    cat.questions.forEach(q => {
+      const key = getKey(cat.id, q.id);
+      const val = answers[key] || '';
+      const valClass = val.trim() ? hasValueClass : '';
+      html += `
+        <div>
+          <label class="field-label">${q.label}</label>
+          <textarea
+            class="field-textarea ${valClass}"
+            rows="2"
+            placeholder="${q.placeholder}"
+            oninput="handleInput('${cat.id}','${q.id}',this.value)"
+            onfocus="this.style.borderColor='${color}'"
+            onblur="this.style.borderColor=this.value.trim()?'${person==='his'?'rgba(192,57,43,0.25)':'rgba(142,68,173,0.25)'}':'#1a1a1e'"
+          >${val}</textarea>
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+        <button class="complete-btn" style="background:${color}" onclick="markComplete('${cat.id}')">MARK COMPLETE ✓</button>
+      </div>
+    `;
+  }
+
+  html += `<div class="footer">IF YOU CAN SEE IT, YOU CAN BUILD IT</div>`;
+  app.innerHTML = html;
+}
+
+function setPerson(p) {
+  person = p;
+  activeCategory = null;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function openCategory(id) {
+  activeCategory = id;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  activeCategory = null;
+  render();
+}
+
+function handleInput(catId, qId, value) {
+  answers[getKey(catId, qId)] = value;
+  saveState();
+}
+
+function markComplete(catId) {
+  completedCats[`${person}-${catId}`] = true;
+  saveState();
+  activeCategory = null;
+  render();
+  window.scrollTo(0, 0);
+}
+
+// Initial render
+render();
+</script>
+
+</body>
+</html>
