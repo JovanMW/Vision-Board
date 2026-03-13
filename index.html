@@ -487,22 +487,22 @@
     let completedCats = {};
 
     try {
-      const saved = window.sessionStorage.getItem("dream-blueprint");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        answers = parsed.answers || {};
-        completedCats = parsed.completedCats || {};
-      }
-    } catch (e) {}
+  const saved = window.localStorage.getItem("dream-blueprint");
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    answers = parsed.answers || {};
+    completedCats = parsed.completedCats || {};
+  }
+} catch (e) {}
 
-    function saveState() {
-      try {
-        window.sessionStorage.setItem(
-          "dream-blueprint",
-          JSON.stringify({ answers, completedCats })
-        );
-      } catch (e) {}
-    }
+function saveState() {
+  try {
+    window.localStorage.setItem(
+      "dream-blueprint",
+      JSON.stringify({ answers, completedCats })
+    );
+  } catch (e) {}
+}
 
     function getKey(catId, qId) {
       return `${person}-${catId}-${qId}`;
