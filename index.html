@@ -561,7 +561,7 @@ function getLabel() {
         </div>
       `;
 
-      if (!activeCategory) {
+      if (!activeCategory && !showResults) {
         html += `<div class="cat-grid">`;
 
         categories.forEach(cat => {
