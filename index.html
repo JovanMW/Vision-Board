@@ -582,7 +582,14 @@ function getLabel() {
           `;
         });
 
-        html += `</div>`;
+        html += `
+  <div class="cat-card" onclick="openResults()">
+    <div class="cat-icon">📊</div>
+    <div class="cat-title">Results</div>
+    <div class="cat-count">See your shared progress</div>
+    <div class="cat-mini-bar" style="width:100%;background:#666"></div>
+  </div>
+</div>`;
       } else {
         const cat = categories.find(c => c.id === activeCategory);
         const hasValueClass = person === 'his' ? 'has-value-his' : 'has-value-hers';
