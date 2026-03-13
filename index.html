@@ -647,10 +647,11 @@ function getLabel() {
 }
 
     function openCategory(id) {
-      activeCategory = id;
-      render();
-      window.scrollTo(0, 0);
-    }
+  activeCategory = id;
+  showResults = false;
+  render();
+  window.scrollTo(0, 0);
+}
 
     function goBack() {
       activeCategory = null;
