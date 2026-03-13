@@ -654,9 +654,10 @@ function getLabel() {
 }
 
     function goBack() {
-      activeCategory = null;
-      render();
-    }
+  activeCategory = null;
+  showResults = false;
+  render();
+}
 
     function handleInput(catId, qId, value) {
       answers[getKey(catId, qId)] = value;
